@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iris setosa prediction app</title>
+    <style type="text/css">
+        p {
+            font-size:20px
+        }
+        label {
+            font-size:20px
+        }
+        input {
+            font-size:20px
+        }
+        button {
+            font-size:20px
+        }
+    </style>
+</head>
+<body>
+    <h1>Iris setosa prediction app</h1>
+    <p>Please enter a description of your iris flower—</p>
+    <form>
+        <label>Sepal length (cm):</label><br>
+        <input id='sepal-length' type="number"><br>
+        <label>Sepal width (cm):</label><br>
+        <input id='sepal-width' type="number"><br>
+        <label>Petal length (cm): </label><br>
+        <input id='petal-length' type="number"><br>
+        <label>Petal width (cm): </label><br>
+        <input id='petal-width' type="number"><br>
+    </form>
+    <br>
+    <button id="predict-button"> Calculate probability </button><br><br>
+
+    <h2>Prediction</h2>
+    <p>Probability that your iris flower is an Iris setosa—</p>
+    <p id="prediction"></p>
+
+    <h2>Explanation</h2>
+    <p id="explanation"></p>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $("#predict-button").click(function(event){
+            let message = {
+                sepal_length: $("#sepal-length").val(),
+                sepal_width: $("#sepal-width").val(),
+                petal_length: $("#petal-length").val(),
+                petal_width: $("#petal-width").val()
+            }
+            $.post("http://0.0.0.0:5000/predict", JSON.stringify(message), function(response){
+                $("#prediction").text(response.prediction.toFixed(4));
+                console.log(response);
+            });
+        });
+    </script>
+</body>
+</html>
